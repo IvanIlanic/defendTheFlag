@@ -1,0 +1,8 @@
+django-admin startproject backend
+python3 manage.py startapp api
+
+git remote set-url origin git@github.com:IvanIlanic/defendTheFlag.git
+to set via ssh
+
+python manage.py migrate
+python manage.py makemigration
