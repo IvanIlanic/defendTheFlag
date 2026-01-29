@@ -1,8 +1,8 @@
 
 function Login() {
   return (
-    <div className="bg-background">
-      <h1 className="text-red-900 text-4xl font-bold">Login</h1>
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="p-30 px-50 bg-surface"></div>
     </div>
   )
 }
