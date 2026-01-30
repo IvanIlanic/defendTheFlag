@@ -4,10 +4,11 @@ import { jwtDecode } from "jwt-decode";
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useState, useEffect } from "react";
+// useState changes the state of the variable, can be used onClick() when button.
 
 
 function ProtectedRoute({ children }) {
-    const [isAuthorized, setIsAuthorized] = useState(null);
+    const [isAuthorized, setIsAuthorized] = useState(null); // Here used to set the state if the user is authorized or not, isAuthorized is a variable, and set it a function
 
     useEffect(() => {
         auth().catch(() => setIsAuthorized(false))

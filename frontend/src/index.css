@@ -8,3 +8,16 @@
   --color-foreground: #ffffff;
 }
 
+@layer base{
+  h1 {
+    @apply text-xl font-bold mb-4 text-white;
+  }
+  p1 {
+    @apply text-xs font-bold mb-4 text-white;
+  }
+  .btn {
+    @apply text-xs font-normal mb-4 text-white opacity-50 bg-background p-2 px-14 rounded-md;
+  }
+
+}
+
