@@ -23,9 +23,6 @@ function Login() {
             <p1 className='m-0'>New to defend the flag?</p1>
             <p1 className='m-0 text-accent '>Create an accont -</p1>
           </div>
-          
-
-
         </div>
       </div>
       
