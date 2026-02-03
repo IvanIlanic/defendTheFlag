@@ -1,5 +1,6 @@
 import logo from '../assets/DefendTHEFlag.png'
 
+
 function Login() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
@@ -21,8 +22,12 @@ function Login() {
           <div className=' border-input border'></div>
           <div className='flex flex-col m-0 mt-3 '>
             <p1 className='m-0'>New to defend the flag?</p1>
+            <a href="http://"></a>
             <p1 className='m-0 text-accent '>Create an accont -</p1>
           </div>
+          
+
+
         </div>
       </div>
       

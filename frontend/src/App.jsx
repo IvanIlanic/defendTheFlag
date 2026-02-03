@@ -22,6 +22,7 @@ return (
       <Routes>
         <Route path='/' element={<ProtectedRoute> <Home /> </ProtectedRoute>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/home' element={<Home/>} />
         <Route path='/register' element={<Register/>}/>
         <Route path='*' element={<NotFound/>} />
 

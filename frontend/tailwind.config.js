@@ -1,3 +1,5 @@
+import { build } from "vite";
+
 export default {
   content: [
     "./index.html",
@@ -5,7 +7,7 @@ export default {
   ],
   theme: {
     extend: {
-  
+      
     },
   },
   plugins: [],
