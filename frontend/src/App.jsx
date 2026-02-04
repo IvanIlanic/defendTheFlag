@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Footer from './pages/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import Userinfo from './pages/UserInfo';
+import Trophies from './pages/Trophies';
 
 function Logout (){ // Used to clear the local storage from the tokens when the user logsout
   localStorage.clear()
@@ -27,6 +29,8 @@ return (
         <Route path='/register' element={<Register/>}/>
         <Route path='*' element={<NotFound/>} />
         <Route path='/footer' element={<Footer/>} />
+        <Route path='/userInfo' element={<Userinfo/>}/>
+        <Route path='/trophies' element={<Trophies/>}/>
       </Routes>
 
     </BrowserRouter>

@@ -6,6 +6,7 @@
   --color-input: #262D3C;
   --color-accent: #869AFF;
   --color-foreground: #ffffff;
+  --color-darkBackground: #0F141D;
 }
 
 animation: var(--animate-pulse); /* pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite */
@@ -21,7 +22,7 @@ animation: var(--animate-pulse); /* pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infini
     @apply text-xl font-bold mb-4 text-white;
   }
   p1 {
-    @apply text-xs font-bold mb-4 text-white;
+    @apply text-xs font-light mb-4 text-white;
   }
   .btn {
     @apply text-xs font-normal mb-4 text-white opacity-50 bg-background p-2 px-14 rounded-md;
