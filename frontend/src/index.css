@@ -25,7 +25,7 @@ animation: var(--animate-pulse); /* pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infini
     @apply text-xs font-light mb-4 text-white;
   }
   .btn {
-    @apply text-xs font-normal mb-4 text-white opacity-50 bg-background p-2 px-14 rounded-md;
+    @apply text-xs font-normal mb-4 text-white opacity-50 bg-background hover:bg-darkBackground p-2 px-14 rounded-md;
   }
   .container{
     @apply bg-surface rounded-sm max-h-100 p-5 m-10  

@@ -8,6 +8,9 @@ import Footer from './pages/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import Userinfo from './pages/UserInfo';
 import Trophies from './pages/Trophies';
+import TeamCreation from './pages/TeamCreation';
+import GameScreen from './pages/GameScreen';
+import Teams from './pages/Teams';
 
 function Logout (){ // Used to clear the local storage from the tokens when the user logsout
   localStorage.clear()
@@ -31,6 +34,10 @@ return (
         <Route path='/footer' element={<Footer/>} />
         <Route path='/userInfo' element={<Userinfo/>}/>
         <Route path='/trophies' element={<Trophies/>}/>
+        <Route path='/teamCreation' element={<TeamCreation/>}/>
+        <Route path='/gameScreen' element={<GameScreen/>}/>
+        <Route path='/teams' element={<Teams/>}/>
+
       </Routes>
 
     </BrowserRouter>
