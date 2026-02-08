@@ -18,6 +18,8 @@ import GameCreate2 from './pages/GameCreate2';
 import GameCreate3 from './pages/GameCreate3';
 import GameCreate4 from './pages/GameCreate4';
 import GameCreate5 from './pages/GameCreate5';
+import GamePastDetail from './pages/GamePastDetail';
+import GamePast from './pages/GamePast';
 
 function Logout (){ // Used to clear the local storage from the tokens when the user logsout
   localStorage.clear()
@@ -51,6 +53,8 @@ return (
         <Route path='/gameCreate3' element={<GameCreate3/>}/>
         <Route path='/gameCreate4' element={<GameCreate4/>}/>
         <Route path='/gameCreate5' element={<GameCreate5/>}/>
+        <Route path='/gamePastDetail' element={<GamePastDetail/>}/>
+        <Route path='/gamePast' element={<GamePast/>}/>
 
       </Routes>
 
