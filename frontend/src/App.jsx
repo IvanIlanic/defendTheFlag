@@ -11,6 +11,7 @@ import Trophies from './pages/Trophies';
 import TeamCreation from './pages/TeamCreation';
 import GameScreen from './pages/GameScreen';
 import Teams from './pages/Teams';
+import Gamemaster from './pages/Gamemaster';
 
 function Logout (){ // Used to clear the local storage from the tokens when the user logsout
   localStorage.clear()
@@ -37,6 +38,7 @@ return (
         <Route path='/teamCreation' element={<TeamCreation/>}/>
         <Route path='/gameScreen' element={<GameScreen/>}/>
         <Route path='/teams' element={<Teams/>}/>
+        <Route path='/gamemaster' element={<Gamemaster/>}/>
 
       </Routes>
 
