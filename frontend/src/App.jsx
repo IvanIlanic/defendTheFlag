@@ -21,6 +21,11 @@ import GameCreate5 from './pages/GameCreate5';
 import GamePastDetail from './pages/GamePastDetail';
 import GamePast from './pages/GamePast';
 
+
+import Reg from './pages/reg';
+
+
+
 function Logout (){ // Used to clear the local storage from the tokens when the user logsout
   localStorage.clear()
   return <Navigate to="/login"/>
@@ -35,7 +40,7 @@ function App() {
 return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<ProtectedRoute> <Home /> </ProtectedRoute>}/>
+        <Route path='/' element={<ProtectedRoute> <HomeUser /> </ProtectedRoute>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/home' element={<Home/>} />
         <Route path='/homeUser' element={<HomeUser/>} />
@@ -55,6 +60,9 @@ return (
         <Route path='/gameCreate5' element={<GameCreate5/>}/>
         <Route path='/gamePastDetail' element={<GamePastDetail/>}/>
         <Route path='/gamePast' element={<GamePast/>}/>
+        
+        <Route path='/reg' element={<Reg/>}/>
+
 
       </Routes>
 
