@@ -1,7 +1,25 @@
+import { useState, useEffect } from 'react'
+import api from '../api'
 import discord from '../assets/discord.png'
 import skull from '../assets/Skull.png'
 
 function Userinfo() {
+    // Going to use for storing
+    const [me,setMe] = useState(null)
+
+    // Running the function the moment the page is opened
+    const getMe = () => {
+        api.get("api/me/")
+        .then((res) => setMe(res.data))
+        .catch((err) => alert(err))
+    }
+
+    useEffect(() => {
+        getMe()
+    
+    },[]) // Use [] so it doesnt load inf
+
+    if(!me) return <div>Loading ...</div>
 return(
     <div className="flex flex-col bg-background min-h-screen w-auto p-10 ">
         <h1 className='font-normal'>User <br />information</h1>
@@ -10,19 +28,19 @@ return(
             <div className="flex flex-col max-w-1/3">
                 <div>
                     <p1 className="font-light text-accent opacity-70">User name</p1>
-                    <h1 className="font-light mb-0">ImmortalusGod</h1>
+                    <h1 className="font-light mb-0">{me.username}</h1>
                 </div>
                 <div>
                     <p1 className="font-light text-accent opacity-70">Your slang</p1>
-                    <h1 className="font-light mb-0">Coffe Overflow</h1>
+                    <h1 className="font-light mb-0">{me.slang || "No slang"}</h1>
                 </div>
                 <div>
                     <p1 className="font-light text-accent opacity-70">Desciption</p1>
-                    <h1 className="font-light mb-0">Yooo, add me on a discord if you know anything about sql injections, trying to learn that rn. Have some experience in automation and memory exploitation</h1>
+                    <h1 className="font-light mb-0">{me.description || "No description"}</h1>
                 </div>
                 <div>
                     <p1 className="font-light text-accent opacity-70">User email</p1>
-                    <h1 className="font-light mb-0">ilanicivan@gmail.com</h1>
+                    <h1 className="font-light mb-0">Email</h1>
                 </div>
                 <div>
                     <p1 className="font-light text-accent opacity-70">User password</p1>

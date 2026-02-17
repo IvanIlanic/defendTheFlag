@@ -25,7 +25,7 @@ function Login({ route, method }) {
                 navigate("/home")
             
         } catch (error) {
-            alert(error)
+            alert(JSON.stringify(error?.response?.data ?? error.message))
         } finally {
             setLoading(false)
         }
@@ -43,8 +43,8 @@ function Login({ route, method }) {
                     <input className='bg-input rounded-md' type="text"  onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
                   </div>
                   <div className='p-3 flex flex-col'>
-                    <p1 className='text-accent font-normal '  onChange={(e) => setPassword(e.target.value)} >Password</p1>
-                    <input className='bg-input rounded-md' type="password" />
+                    <p1 className='text-accent font-normal '  >Password</p1>
+                    <input className='bg-input rounded-md' onChange={(e) => setPassword(e.target.value)}  type="password" />
                   </div>
                   <div className='p-5 justify-center flex'>
                     <button className='btn' type="submit">GameTime</button>

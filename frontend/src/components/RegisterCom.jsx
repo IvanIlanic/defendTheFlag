@@ -37,11 +37,11 @@ function Login({ route, method }) {
                           <h1 className='items-center text-center'>Creating a new account!</h1>
                           <div className='p-3 flex flex-col'>
                             <p1 className='text-accent font-normal'>Username</p1>
-                            <input className='bg-input rounded-md' type="text" />
+                            <input className='bg-input rounded-md' type="text"  onChange={(e)=> setUsername(e.target.value)} placeholder="Username"/>
                           </div>
                           <div className='p-3 flex flex-col'>
                             <p1 className='text-accent font-normal'>Email</p1>
-                            <input className='bg-input rounded-md' type="text" value="userName" onChange={(e)=> setUsername(e.target.value)} placeholder="Username" />
+                            <input className='bg-input rounded-md' type="text"  />
                           </div>
                           <div className='p-3 flex flex-col'>
                             <p1 className='text-accent font-normal'>Password</p1>

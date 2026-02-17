@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react'
+import api from '../api'
+
 import postgres from '../assets/postgres.png'
 import terminal from '../assets/terminal.png'
 import windows from '../assets/windows.png'
@@ -12,6 +15,21 @@ import Tipp from '../assets/Tipp.png'
 import skull from '../assets/Skull.png'
 import val from '../assets/Val.png'
 function HomeUser() {
+    const [description,setDescription] = useState("")
+    const [slang,setSlang] = useState("");
+
+    // Running the function the moment the page is opened
+    useEffect(() => {
+        getName()
+    },[])
+
+    const getName = () => {
+        api
+        .get("/api/notes/")
+        .then((res) => res.data)
+        .then((data) => {setSlang(data); console.log(data)})
+        .catch((err) => alert(err))
+    }
     return (
         
         <div className="min-h-screen w-auto bg-background flex flex-column ">

@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react'
+import api from '../api'
+
 import postgres from '../assets/postgres.png'
 import terminal from '../assets/terminal.png'
 import windows from '../assets/windows.png'
@@ -10,6 +13,7 @@ import cyberpsychos from '../assets/cyberpsychos.png'
 import northnet from '../assets/northnet.png'
 
 function Home() {
+    
     return (
         
         <div className="min-h-screen w-auto bg-background flex flex-column ">

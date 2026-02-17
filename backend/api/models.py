@@ -11,3 +11,22 @@ class Teams(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Notes(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes") # Cascade used to delete all if this col is deleted
+
+# Model of profile, will display data like description and stats
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    slang = models.CharField(max_length=50, blank=True)
+    description = models.TextField(max_length=100, blank=True)
+    
+    def __str__(self):
+        return f"{self.user.username} profile"
+
+
+
+
