@@ -21,28 +21,34 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only" : True}}
     
     def create(self, validated_data):
-        profile_data = validated_data.pop("profile",{})
+        profile_data = validated_data.pop("profile", {})
         user = User.objects.create_user(**validated_data)
 
+        # ensure profile exists
+        prof, _ = Profile.objects.get_or_create(user=user)
+
+        # update if provided
         if profile_data:
-            prof = user.profile
             prof.slang = profile_data.get("slang", prof.slang)
-            prof.description = profile_data.get("description",prof.description)
+            prof.description = profile_data.get("description", prof.description)
             prof.save()
 
         return user
     
     def update(self, instance, validated_data):
-        profile_data = validated_data.pop("profile",None)
+        profile_data = validated_data.pop("profile", None)
 
-        #instance.email = validated_data.get("email", instance.email)
-        #instance.save()
+        # (optional) allow email updates
+        if "email" in validated_data:
+            instance.email = validated_data["email"]
+            instance.save()
+
         if profile_data is not None:
-            prof = instance.profile
+            # ensure profile exists
+            prof, _ = Profile.objects.get_or_create(user=instance)
             prof.slang = profile_data.get("slang", prof.slang)
             prof.description = profile_data.get("description", prof.description)
             prof.save()
-            
 
         return instance
     
