@@ -15,21 +15,29 @@ import Tipp from '../assets/Tipp.png'
 import skull from '../assets/Skull.png'
 import val from '../assets/Val.png'
 function HomeUser() {
-    const [description,setDescription] = useState("")
-    const [slang,setSlang] = useState("");
+    const [me,setMe] = useState("") // Using for storing me data that comes from a api endpoint
 
-    // Running the function the moment the page is opened
-    useEffect(() => {
-        getName()
-    },[])
+        const getMe = async () =>{
+            try {
+            const res = await api.get("/api/me/")
+            setMe(res.data)
+        } catch(err){
+            alert(err)
+    
+            }
+        }
+    
+        useEffect(()=>{
+            getMe()
+        },[])
 
-    const getName = () => {
-        api
-        .get("/api/notes/")
-        .then((res) => res.data)
-        .then((data) => {setSlang(data); console.log(data)})
-        .catch((err) => alert(err))
-    }
+        const WinRate = ()=>{
+            console.log("friends")
+            console.log(me.profile.friends)
+            return me.profile.gamesWon / me.profile.gamesTotal *100
+        }
+    
+        if (!me) return <div>Loading...</div>
     return (
         
         <div className="min-h-screen w-auto bg-background flex flex-column ">
@@ -42,67 +50,67 @@ function HomeUser() {
                                     <img src={Tipp} alt="" className='h-30 p-2' />
                                 </div>
                                 <div className='flex flex-col'>
-                                    <h1 className='m-0 text-xl font-normal'>ImmortalusGod</h1>
-                                    <h1 className='m-0 text-sm font-normal'>Coffee Overflow</h1>
+                                    <h1 className='m-0 text-xl font-normal'>{me.username}</h1>
+                                    <h1 className='m-0 text-sm font-normal'>{me.profile.slang}</h1>
                                 </div>     
                                                         
                             </div>
                             <h1>lvl</h1>
-                            <p1>23</p1>
+                            <p1 className="">{me.profile.level}</p1>
                             <div className='border-input border-1'></div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>45</h1>
+                                    <h1>{me.profile.gamesTotal}</h1>
                                     <p1 className='opacity-70'>Games played</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>321</h1>
+                                    <h1>{me.profile.points}</h1>
                                     <p1 className='opacity-70'>Points Achieved</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>62.3%</h1>
+                                    <h1>{WinRate()}%</h1>
                                     <p1 className='opacity-70'>Win rate</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>B+</h1>
+                                    <h1>InDev</h1>
                                     <p1 className='opacity-70'>Teamwork</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>B</h1>
+                                    <h1>InDev</h1>
                                     <p1 className='opacity-70'>Skill set</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>B</h1>
+                                    <h1>InDev</h1>
                                     <p1 className='opacity-70'>TechSkillz</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>touch</h1>
+                                    <h1>InDev</h1>
                                     <p1 className='opacity-70'>Favourite command</p1>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <img src="" alt="icon" />
                                 <div className='flex flex-col p-3'>
-                                    <h1>linux</h1>
+                                    <h1>InDev</h1>
                                     <p1 className='opacity-70'>Most played system</p1>
                                 </div>
                             </div>

@@ -20,6 +20,7 @@ import GameCreate4 from './pages/GameCreate4';
 import GameCreate5 from './pages/GameCreate5';
 import GamePastDetail from './pages/GamePastDetail';
 import GamePast from './pages/GamePast';
+import Friends from './pages/Friends';
 
 
 import Reg from './pages/reg';
@@ -60,8 +61,8 @@ return (
         <Route path='/gameCreate5' element={<GameCreate5/>}/>
         <Route path='/gamePastDetail' element={<GamePastDetail/>}/>
         <Route path='/gamePast' element={<GamePast/>}/>
+        <Route path='/friends' element={<Friends/>}/>
         
-        <Route path='/reg' element={<Reg/>}/>
 
 
       </Routes>
