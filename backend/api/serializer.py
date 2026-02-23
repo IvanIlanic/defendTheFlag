@@ -13,6 +13,13 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ["slang","description","level","gamesTotal","points","gamesWon"]
 
+class FriendSerializer(serializers.ModelSerializer):
+    slang = serializers.CharField(source="profile.slang",read_only = True)
+
+    class Meta:
+        model = User
+        fields = ["id","username","slang"]
+
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
     class Meta:

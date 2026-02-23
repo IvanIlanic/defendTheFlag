@@ -27,6 +27,7 @@ class Profile(models.Model):
     points = models.IntegerField(default=0)
     gamesTotal = models.IntegerField(default=10)
     gamesWon = models.IntegerField(default=5)
+    friends = models.ManyToManyField(User, blank=True, related_name="friend_of")
     
     
     def __str__(self):
