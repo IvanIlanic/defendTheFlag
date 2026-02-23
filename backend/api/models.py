@@ -23,6 +23,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     slang = models.CharField(max_length=50, blank=True)
     description = models.TextField(max_length=100, blank=True)
+    level = models.IntegerField(default=1)
+    points = models.IntegerField(default=0)
+    gamesTotal = models.IntegerField(default=10)
+    gamesWon = models.IntegerField(default=5)
+    
     
     def __str__(self):
         return f"{self.user.username} profile"

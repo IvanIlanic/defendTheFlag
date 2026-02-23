@@ -11,7 +11,7 @@ from .models import Teams, Notes, Profile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["slang","description"]
+        fields = ["slang","description","level","gamesTotal","points","gamesWon"]
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
