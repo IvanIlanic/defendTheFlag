@@ -14,6 +14,7 @@ import northnet from '../assets/northnet.png'
 import Tipp from '../assets/Tipp.png'
 import skull from '../assets/Skull.png'
 import val from '../assets/Val.png'
+import { useNavigate } from 'react-router-dom'
 function HomeUser() {
     const [me,setMe] = useState("") // Using for storing me data that comes from a api endpoint
 
@@ -32,10 +33,10 @@ function HomeUser() {
         },[])
 
         const WinRate = ()=>{
-            console.log("friends")
-            console.log(me.profile.friends)
+            
             return me.profile.gamesWon / me.profile.gamesTotal *100
         }
+        const navigate = useNavigate()
     
         if (!me) return <div>Loading...</div>
     return (
@@ -131,7 +132,7 @@ function HomeUser() {
                     </div>
                     <div className='flex flex-col pl-50' id='rightSide'>
                         <div className='flex flex-row h-90' id='upper'>
-                            <div id='friends' className='bg-surface p-10 rounded-md'>
+                            <div id='friends' className='bg-surface p-10 rounded-md' onClick={()=>navigate("/friends")}>
                                 <p1>Friends</p1>
                                 <div className='flex flex-row'>
                                                     <div className='flex flex-row justify-center items-center'>
