@@ -19,7 +19,21 @@ class FriendSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id","username","slang"]
+# Same as friends
+class TeamsMembersSerializer(serializers.ModelSerializer):
+    slang = serializers.CharField(source="profile.slang", read_only=True)
+    class Meta:
+        model = User
+        fields = ["id","username","slang"]
 
+
+class TeamsSerializer(serializers.ModelSerializer):
+    members = TeamsMembersSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Teams
+        fields = ["id", "name", "slang", "description", "members"]
+        
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
     class Meta:
@@ -59,11 +73,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
     
-class TeamsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Teams
-        fields = ["id","name","slang","description"]
-        extra_kwargs = {"author":{"read_only": True}}
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:

@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 class Teams(models.Model):
     id = models.AutoField(primary_key=True) # Change this to UUID later for security reasons
     name = models.CharField(max_length=30)
+    members = models.ManyToManyField(User, blank= True, related_name="memberof")
     slang = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Owner_of_the")
     # Have to add profile picture and backgroud picture
 
     def __str__(self):
@@ -32,6 +34,8 @@ class Profile(models.Model):
     
     def __str__(self):
         return f"{self.user.username} profile"
+
+
 
 
 
