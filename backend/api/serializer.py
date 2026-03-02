@@ -33,7 +33,7 @@ class TeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teams
         fields = ["id", "name", "slang", "description", "members"]
-        
+
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
     class Meta:
@@ -45,10 +45,10 @@ class UserSerializer(serializers.ModelSerializer):
         profile_data = validated_data.pop("profile", {})
         user = User.objects.create_user(**validated_data)
 
-        # ensure profile exists
+        #Ensure profile exists
         prof, _ = Profile.objects.get_or_create(user=user)
 
-        # update if provided
+        # Update if provided
         if profile_data:
             prof.slang = profile_data.get("slang", prof.slang)
             prof.description = profile_data.get("description", prof.description)
@@ -59,7 +59,7 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         profile_data = validated_data.pop("profile", None)
 
-        # (optional) allow email updates
+        # Allow email updates
         if "email" in validated_data:
             instance.email = validated_data["email"]
             instance.save()

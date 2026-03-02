@@ -94,7 +94,7 @@ function TeamCreation() {
             <img src={discord} alt="discord" className="w-5" />
           </button>
 
-          {/* ✅ this submits the form */}
+          
           <button type="submit" className="btn bg-surface">
             Create the team
           </button>
