@@ -17,7 +17,7 @@ return(
                 <p1 className='max-w-1/2 text-accent opacity-70'>You are correctly designing the system and making it stronger in the name of security and user management</p1>
             </div>
             <div className='flex flex-col'>
-                <h1 className='m-0 text-7xl'>12 32’ 2”</h1>
+                <h1 className='m-0 text-7xl'>12 32 2”</h1>
                 <h1 className='m-0 text-accent opacity-70 font-normal'>time remaining</h1>
             </div>
         </div>

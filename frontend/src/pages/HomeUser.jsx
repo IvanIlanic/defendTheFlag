@@ -17,19 +17,28 @@ import val from '../assets/Val.png'
 import { useNavigate } from 'react-router-dom'
 function HomeUser() {
     const [me,setMe] = useState("") // Using for storing me data that comes from a api endpoint
-
+    const [friends,setFriends] = useState([])
         const getMe = async () =>{
             try {
             const res = await api.get("/api/me/")
             setMe(res.data)
         } catch(err){
-            alert(err)
-    
+            alert(err)    
             }
         }
+
+        const getFriends = async()=>{
+            try{
+                const res = await api.get("api/friends/")
+                setFriends(res.data)
+        }catch(err){
+            alert(err)
+        }
+    }
     
         useEffect(()=>{
             getMe()
+            getFriends()
         },[])
 
         const WinRate = ()=>{
@@ -46,7 +55,7 @@ function HomeUser() {
                <div className='flex flex-row '>
                     <div className='flex flex-col max-w-1/3 'id='Leftside'>
                         <div className='flex flex-col bg-surface  w-max p-10 rounded-md' id="User" >
-                            <div className='flex flex-row justify-center items-center'>
+                            <div className='flex flex-row justify-center items-center' onClick={()=>navigate("/userInfo")}>
                                 <div>
                                     <img src={Tipp} alt="" className='h-30 p-2' />
                                 </div>
@@ -135,41 +144,17 @@ function HomeUser() {
                             <div id='friends' className='bg-surface p-10 rounded-md' onClick={()=>navigate("/friends")}>
                                 <p1>Friends</p1>
                                 <div className='flex flex-row'>
-                                                    <div className='flex flex-row justify-center items-center'>
-                                                        <div>
-                                                            <img src={Tipp} alt="" className='h-20 p-2' />
-                                                        </div>
-                                                        <div className='flex flex-col'>
-                                                            <h1 className='m-0 text-xl font-normal'>Name1</h1>
-                                                            <h1 className='m-0 text-sm font-normal'>Slang</h1>
-                                                        </div>
-                                                        
-                                                    </div>
+                                                    {friends.map((f) => ( // Use map to display all the users
+                                                                <div key={f.id} className="flex flex-row items-center">
+                                                                  <img src={Tipp} alt="" className="h-20 p-2" />
+                                                                  <div className="flex flex-col">
+                                                                    <h1 className="m-0 text-xl font-normal">{f.username}</h1>
+                                                                    <h1 className="m-0 text-sm font-normal">{f.slang || ""}</h1>
+                                                                  </div>
+                                                                </div>
+                                                              ))}
                                                 </div>
-                                                <div className='flex flex-row'>
-                                                    <div className='flex flex-row justify-center items-center'>
-                                                        <div>
-                                                            <img src={val} alt="" className='h-20 p-2' />
-                                                        </div>
-                                                        <div className='flex flex-col'>
-                                                            <h1 className='m-0 text-xl font-normal'>Name1</h1>
-                                                            <h1 className='m-0 text-sm font-normal'>Slang</h1>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div className='flex flex-row'>
-                                                    <div className='flex flex-row justify-center items-center'>
-                                                        <div>
-                                                            <img src={skull} alt="" className='h-20 p-2' />
-                                                        </div>
-                                                        <div className='flex flex-col'>
-                                                            <h1 className='m-0 text-xl font-normal'>Name1</h1>
-                                                            <h1 className='m-0 text-sm font-normal'>Slang</h1>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
+                                                
                                         </div>
                                         <div className='h- w-100 p-10 pt-0 mt-0 m-10 flex flex-col  items-center' id='clanContribute'>
                                             <img src={bladerunners} className='w-100' alt="bladerunners" />
@@ -192,7 +177,7 @@ function HomeUser() {
                                 <p1 className='opacity-70'>Game Objectives</p1>
                              </div>
                         </div>
-                        <div className='flex flex-row justify-center items-center' id='middle'>
+                        <div className='flex flex-row justify-center items-center' id='middle' onClick={()=> navigate("/teams")}>
                             <div className='bg-surface p-10 w-2/3 rounded-md' id='teams'>
                             <h1>Teams</h1>
                             <div className='flex flex-row pt-10' >

@@ -58,7 +58,7 @@ function Friends() {
             <div className="flex flex-col">
               <h1 className="m-0 text-xl font-normal">Add</h1>
               <input
-                className="bg-darkBackground rounded-sm"
+                className="bg-darkBackground text-accent rounded-sm"
                 type="text"
                 value={newFriendName}
                 onChange={(e) => setNewFriendName(e.target.value)}
