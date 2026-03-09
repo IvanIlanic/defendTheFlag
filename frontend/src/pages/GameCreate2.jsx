@@ -1,9 +1,29 @@
+import { useState } from 'react'
 import discord from '../assets/discord.png'
 import skull from '../assets/Skull.png'
 import tipp from '../assets/Tipp.png'
 import val from '../assets/Val.png'
+import { useNavigate } from 'react-router-dom'
+import api from '../api'
 
 function GameCreate1() {
+
+    const navigate = useNavigate()
+    const [gameTime, setGameTime] = useState("")
+
+    const setQueueTime = async ()=>{
+        try{
+            const res = await api.post("/api/queue-game/time/",{
+                gameTime:gameTime
+            })
+            alert("Gamemode added")
+            navigate("/gameCreate3")
+        }
+        catch(err){
+            alert(err.response?.data?.detail || "Cannot add gameTime")
+        }
+    }
+
 return(
     <div className="flex flex-col bg-background min-h-screen w-auto p-10 ">
         <div className='border-input border-1'></div>
@@ -20,12 +40,12 @@ return(
         </div>
         
         <div className='flex flex-row'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col'onClick={()=> {setGameTime("30m"); console.log(gameTime)}}>
                 <h1 className='mb-0'>Swifter</h1>
                 <h1 className='text-4xl'>30/30min</h1>
                 <p1 className='max-w-1/5'>Swifter is a gamemode where sprints are short and dynamic, each phase is lasting for half an hour (30mins) and there is no time to waste!</p1>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex flex-col' onClick={()=>{setGameTime("24h"); console.log(gameTime)}}>
                 <h1 className='mb-0'>AllDayer</h1>
                 <h1 className='text-4xl'>24/24h</h1>
                 <p1 className='max-w-1/5'>Wanna chill and learn about the system for the whole day? This is a perfect gamemode for you. Talk with people for a whole day and share your experiences without having to worry about the clock!</p1>
@@ -36,7 +56,7 @@ return(
 
         
         <div className='justify-center items-center'>
-            <button className='btn bg-darkBackground '>
+            <button className='btn bg-darkBackground ' onClick={()=>setQueueTime()}>
                 <p1> Continue</p1>
             </button>
         </div>

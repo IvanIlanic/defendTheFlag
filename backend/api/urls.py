@@ -10,4 +10,11 @@ urlpatterns = [
     path("teams/create/", views.AddTeamView.as_view(), name="teams-create"),
     path("teams/", views.TeamsListView.as_view(), name="teams"),
     path("teams/<int:team_id>/add/", views.AddTeamFriendView.as_view(), name="team-add-friend"),
+    path("queue-game/team/", views.AddQueueGameTeamView.as_view(), name="queue-team-add"),
+    path("queue-game/time/", views.AddQueueGameTimeView.as_view(), name="queue-time-add"),
+    path("queue-game/system/", views.AddQueueGameSystemView.as_view(), name="queue-system-add"),
+    path("queue-game/", views.ListQueueGameView.as_view(), name="game-queue"),
+    path("queue-game/state2",views.ChangeQueueGameStateView.as_view(), name="game-queue-state"),
+    path("game/create", views.CreateQueueGameView.as_view(), name="game-queue-add"),
+    path("game/<int:game_id>/", views.ListGameView.as_view(), name="game")
 ]   

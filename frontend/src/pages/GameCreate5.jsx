@@ -1,12 +1,36 @@
-import discord from '../assets/discord.png'
-import skull from '../assets/Skull.png'
-import tipp from '../assets/Tipp.png'
-import val from '../assets/Val.png'
-import windows from '../assets/windows.png'
-import terminal from '../assets/terminal.png'
-import postgres from '../assets/postgres.png'
+import { useNavigate } from "react-router-dom"
+import api from "../api"
+import { useEffect, useState } from "react"
 
 function GameCreate5() {
+
+    const navigate = useNavigate()
+const [game, setGame] = useState([])
+
+const findGame = async ()=> {
+    try{
+        const res = await api.post("/api/game/create")
+        enterGame()
+    }
+
+    catch(err){
+        alert(err.response?.data?.detail || "Cannot find a game")
+    }
+}
+
+const enterGame = async ()=>{
+    try{
+        const res = await api.get("/api/game")
+        navigate(`/game/${res.data.id}`)
+    }
+    catch(err){
+        alert(err.response?.data?.detail || "Cannot enter the game")
+    }
+}
+
+useEffect(()=>{
+    findGame()
+},[])
 return(
     <div className="flex flex-col bg-background min-h-screen w-auto p-10 ">
         <div className='border-input border-1'></div>

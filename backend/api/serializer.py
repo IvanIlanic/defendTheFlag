@@ -2,7 +2,7 @@
 # This is one weird example, have to double check this
 from django.contrib.auth.models import User
 from rest_framework import serializers 
-from .models import Teams, Notes, Profile
+from .models import Teams, Profile,Game,QueueGame
 
 # Will use ORM - Object realtional mapping
 # Serializers are transforming python data to json in this example, and other way around
@@ -33,6 +33,19 @@ class TeamsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teams
         fields = ["id", "name", "slang", "description", "members"]
+
+class GameSerializer(serializers.ModelSerializer):
+    team1 = TeamsMembersSerializer(read_only=True)
+    team2 = TeamsMembersSerializer(read_only=True)
+    class Meta:
+        model = Game
+        fields = ["id", "teams", "state", "gamemaster", "winner"]
+
+class QueueSerializer(serializers.ModelSerializer):
+    team = TeamsSerializer(read_only=True)
+    class Meta:
+        model = QueueGame
+        fields = ["id","team","user","gameSystem", "gameTime", "createdAt", "state"]
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=False)
@@ -73,9 +86,3 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
     
-
-class NoteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notes
-        fields = ["id", "title", "content", "created_at", "author"]
-        extra_kwargs = {"author": {"read_only": True}}

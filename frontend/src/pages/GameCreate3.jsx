@@ -5,8 +5,27 @@ import val from '../assets/Val.png'
 import windows from '../assets/windows.png'
 import terminal from '../assets/terminal.png'
 import postgres from '../assets/postgres.png'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../api'
 
-function GameCreate1() {
+function GameCreate3() {
+    const [gameSystem, setGameSystem] = useState("")
+    const navigate = useNavigate()
+
+    const setQueueSystem = async ()=>{
+        try{
+            const res = await api.post("/api/queue-game/system/", {
+                gameSystem: gameSystem
+            })
+            alert("System added!")
+            navigate("/gameCreate4")
+        }
+        catch(err){
+            alert(err.response?.data?.detail || "Cannot add system")
+        }
+    }
+
 return(
     <div className="flex flex-col bg-background min-h-screen w-auto p-10 ">
         <div className='border-input border-1'></div>
@@ -32,9 +51,10 @@ return(
                     </div>
                     <img src={windows} alt="windows" className='max-w-1/6 ' />
                 </div>
-                <p1 className='max-w-1/3'>Swifter is a gamemode where sprints are short and dynamic, each phase is lasting for half an hour (30mins) and there is no time to waste!</p1>
+                <p1 className='max-w-1/3'>Nothing is more fun that setting a totally broken Active Directory to fill in the requirements of security. Good luck with this one.</p1>
+                <h1>Indev</h1>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex flex-col' onClick={()=> {setGameSystem("Linux"), console.log(gameSystem)}}>
                 <div className='flex flex-row'>
                     <div className='flex flex-col'>
                         <h1 className='mb-0'>Depth of</h1>
@@ -44,6 +64,7 @@ return(
                     <img src={terminal} alt="windows" className='max-w-1/6' />
                 </div>
                 <p1 className='max-w-1/3'>This is a classic, set up that Ubuntu environment, play with the user management, firewall and setup a web server. </p1>
+                
             </div>
             <div className='flex flex-col'>
                 <div className='flex flex-row'>
@@ -54,7 +75,8 @@ return(
                     </div>
                     <img src={postgres} alt="windows" className='max-w-1/6' />
                 </div>
-                <p1 className='max-w-1/3'>Swifter is a gamemode where sprints are short and dynamic, each phase is lasting for half an hour (30mins) and there is no time to waste!</p1>
+                <p1 className='max-w-1/3'>Make a database, make it work fast AF and protect it against any possible SQL injections, easy peasy XSS squizy.</p1>
+                <h1>Indev</h1>
             </div>
         </div>
         
@@ -62,7 +84,7 @@ return(
 
         
         <div className='justify-center items-center'>
-            <button className='btn bg-darkBackground '>
+            <button className='btn bg-darkBackground' onClick={()=>setQueueSystem()}>
                 <p1> Continue</p1>
             </button>
         </div>
@@ -73,4 +95,4 @@ return(
 )
 }
 
-export default GameCreate1
+export default GameCreate3

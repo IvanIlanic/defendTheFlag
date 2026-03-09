@@ -13,12 +13,8 @@ class Teams(models.Model):
 
     def __str__(self):
         return self.name
-    
-class Notes(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes") # Cascade used to delete all if this col is deleted
+
+
 
 # Model of profile, will display data like description and stats
 class Profile(models.Model):
@@ -30,11 +26,30 @@ class Profile(models.Model):
     gamesTotal = models.IntegerField(default=10)
     gamesWon = models.IntegerField(default=5)
     friends = models.ManyToManyField(User, blank=True, related_name="friend_of")
+    currentGame = models.ForeignKey(Game, blank=True, related_name="Player_od")
     
     
     def __str__(self):
         return f"{self.user.username} profile"
 
+class Game(models.Model):
+    id = models.AutoField(primary_key=True)
+    teams = models.ManyToManyField(Teams, related_name="Teams_of")
+    state = models.IntegerField(default=1)
+    gamemaster = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, related_name="Headmaster_of")
+    winner = models.ForeignKey(Teams, null=True, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.id} game"
+
+class QueueGame(models.Model):
+    id = models.AutoField(primary_key=True)
+    team = models.ForeignKey(Teams, on_delete=models.CASCADE, related_name= "QueueTeam")
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name="QueueUser")
+    gameSystem = models.CharField(max_length = 30)
+    gameTime = models.CharField(max_length = 30)
+    
+    createdAt = models.DateTimeField(auto_now_add = True)
+    state = models.IntegerField(default=1)
 
 
 

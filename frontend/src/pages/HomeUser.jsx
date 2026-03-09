@@ -177,8 +177,8 @@ function HomeUser() {
                                 <p1 className='opacity-70'>Game Objectives</p1>
                              </div>
                         </div>
-                        <div className='flex flex-row justify-center items-center' id='middle' onClick={()=> navigate("/teams")}>
-                            <div className='bg-surface p-10 w-2/3 rounded-md' id='teams'>
+                        <div className='flex flex-row justify-center items-center' id='middle' >
+                            <div className='bg-surface p-10 w-2/3 rounded-md' id='teams' onClick={()=> navigate("/teams")}>
                             <h1>Teams</h1>
                             <div className='flex flex-row pt-10' >
                              <div className='bg-surface rounded-md w-1/4 h-auto p-5 m-5'>
@@ -193,7 +193,7 @@ function HomeUser() {
                              </div>
                         </div>
                         </div>
-                            <div id='start battle ' className='p-10'>
+                            <div id='start battle ' className='p-10' onClick={()=>navigate("/gameCreate1")}>
                                  <button className='bg-darkBackground p-10 rounded-md'>
                                     <h1>Start the <br /> battle</h1>
                                     <p1>Start a new cyberbattle with against other cyber forces! But remember! Once started, there is no going back.</p1>
