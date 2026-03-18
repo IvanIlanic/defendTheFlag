@@ -51,7 +51,7 @@ return (
         <Route path='/userInfo' element={<Userinfo/>}/>
         <Route path='/trophies' element={<Trophies/>}/>
         <Route path='/teamCreation' element={<TeamCreation/>}/>
-        <Route path='/gameScreen' element={<GameScreen/>}/>
+        <Route path='/game/:gameId' element={<GameScreen/>}/>
         <Route path='/teams' element={<Teams/>}/>
         <Route path='/gamemaster' element={<Gamemaster/>}/>
         <Route path='/gameCreate1' element={<GameCreate1/>}/>

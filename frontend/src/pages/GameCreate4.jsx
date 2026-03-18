@@ -20,9 +20,9 @@ function GameCreate4() {
 
     const startSearch = async() =>{
         try{
-            const res = await api.post("/api/queue-game/state2")
+            const res = await api.post("/api/queue-game/state2/")
             alert("Game started")
-            navigate("/gameCreate")
+            navigate("/gameCreate5")
         }
         catch(err){
             alert(err.response?.data?.detail || "Cannot start game")
