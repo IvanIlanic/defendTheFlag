@@ -14,11 +14,11 @@ services: # Defines all containers
     image: mysql:8.0 
     container_name: dtf-db
     restart: unless-stopped # Will restart if the container crashes
-    environment:
+    environment: # Configures automatically MySQL automatically
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: labdb
       MYSQL_USER: labuser
       MYSQL_PASSWORD: labpass
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
+    command: --default-authentication-plugin=mysql_native_password # Fixes compatibility issues with php
+    volumes: # Made to setup the db and populates it
       - ./app/setup.sql:/docker-entrypoint-initdb.d/setup.sql
