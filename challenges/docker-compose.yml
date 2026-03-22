@@ -1,0 +1,24 @@
+# Config file for docker - automatic setup
+services: # Defines all containers
+  web: # Web container
+    image: php:8.2-apache # Loads a rebuild containers with php and apache
+    container_name: dtf-web
+    ports:
+      - "8080:80"
+    volumes: # For storing data, php is on my machine, and server on apache
+      - ./app:/var/www/html 
+    depends_on: # That has to start previously to start web
+      - db
+
+  db: # Db container
+    image: mysql:8.0 
+    container_name: dtf-db
+    restart: unless-stopped # Will restart if the container crashes
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: labdb
+      MYSQL_USER: labuser
+      MYSQL_PASSWORD: labpass
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./app/setup.sql:/docker-entrypoint-initdb.d/setup.sql
