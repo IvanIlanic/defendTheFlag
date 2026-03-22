@@ -35,11 +35,10 @@ class TeamsSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "slang", "description", "members"]
 
 class GameSerializer(serializers.ModelSerializer):
-    team1 = TeamsMembersSerializer(read_only=True)
-    team2 = TeamsMembersSerializer(read_only=True)
+    teams = TeamsSerializer( many=True,read_only=True)
     class Meta:
         model = Game
-        fields = ["id", "teams", "state", "gamemaster", "winner"]
+        fields = ["id", "teams", "state", "gamemaster", "winner", "stateStart", "stateEnd", "gameTime", "gameSystem"]
 
 class QueueSerializer(serializers.ModelSerializer):
     team = TeamsSerializer(read_only=True)

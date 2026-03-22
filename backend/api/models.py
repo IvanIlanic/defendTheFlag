@@ -15,6 +15,30 @@ class Teams(models.Model):
         return self.name
 
 
+class QueueGame(models.Model):
+    id = models.AutoField(primary_key=True)
+    team = models.ForeignKey(Teams, on_delete=models.CASCADE, related_name= "QueueTeam")
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name="QueueUser")
+    gameSystem = models.CharField(max_length = 30)
+    gameTime = models.CharField(max_length = 30)
+    
+    createdAt = models.DateTimeField(auto_now_add = True)
+    state = models.IntegerField(default=1)
+
+class Game(models.Model):
+    id = models.AutoField(primary_key=True)
+    teams = models.ManyToManyField(Teams, related_name="Teams_of")
+    state = models.IntegerField(default=1)
+    gamemaster = models.ForeignKey("Profile", on_delete=models.CASCADE, null=True, related_name="Headmaster_of")
+    winner = models.ForeignKey(Teams, null=True, on_delete=models.CASCADE)
+    stateStart = models.DateTimeField(auto_now_add = True)
+    stateEnd = models.DateTimeField(null=True, blank=True)
+    gameTime = models.CharField(max_length=30, null=True, blank=True)
+    gameSystem = models.CharField(max_length=30, null=True, blank=True)
+    def __str__(self):
+        return f"{self.id} game"
+
+
 
 # Model of profile, will display data like description and stats
 class Profile(models.Model):
@@ -26,32 +50,10 @@ class Profile(models.Model):
     gamesTotal = models.IntegerField(default=10)
     gamesWon = models.IntegerField(default=5)
     friends = models.ManyToManyField(User, blank=True, related_name="friend_of")
-    currentGame = models.ForeignKey(Game, blank=True, related_name="Player_od")
+    currentGame = models.ForeignKey("Game",null=True, blank=True, on_delete=models.SET_NULL, related_name="Player_od")
     
     
     def __str__(self):
         return f"{self.user.username} profile"
-
-class Game(models.Model):
-    id = models.AutoField(primary_key=True)
-    teams = models.ManyToManyField(Teams, related_name="Teams_of")
-    state = models.IntegerField(default=1)
-    gamemaster = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, related_name="Headmaster_of")
-    winner = models.ForeignKey(Teams, null=True, on_delete=models.CASCADE)
-    def __str__(self):
-        return f"{self.id} game"
-
-class QueueGame(models.Model):
-    id = models.AutoField(primary_key=True)
-    team = models.ForeignKey(Teams, on_delete=models.CASCADE, related_name= "QueueTeam")
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name="QueueUser")
-    gameSystem = models.CharField(max_length = 30)
-    gameTime = models.CharField(max_length = 30)
-    
-    createdAt = models.DateTimeField(auto_now_add = True)
-    state = models.IntegerField(default=1)
-
-
-
 
 

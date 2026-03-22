@@ -14,7 +14,8 @@ urlpatterns = [
     path("queue-game/time/", views.AddQueueGameTimeView.as_view(), name="queue-time-add"),
     path("queue-game/system/", views.AddQueueGameSystemView.as_view(), name="queue-system-add"),
     path("queue-game/", views.ListQueueGameView.as_view(), name="game-queue"),
-    path("queue-game/state2",views.ChangeQueueGameStateView.as_view(), name="game-queue-state"),
-    path("game/create", views.CreateQueueGameView.as_view(), name="game-queue-add"),
-    path("game/<int:game_id>/", views.ListGameView.as_view(), name="game")
+    path("queue-game/state2/",views.ChangeQueueGameStateView.as_view(), name="game-queue-state"),
+    path("game/find/", views.CreateQueueGameView.as_view(), name="game-find"),
+    path("game/<int:game_id>/", views.ListGameView.as_view(), name="game"),
+    path("game/changeGameState/", views.GameStateTimeView.as_view(), name="game-state-time")
 ]   

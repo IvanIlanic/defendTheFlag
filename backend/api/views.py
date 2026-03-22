@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics, status
-from .serializer import UserSerializer,  ProfileSerializer, FriendSerializer, TeamsSerializer, QueueSerializer
+from .serializer import UserSerializer,  ProfileSerializer, FriendSerializer, TeamsSerializer, QueueSerializer, GameSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .models import Profile, Teams, QueueGame, Game
+from django.db import transaction
+
+from django.utils import timezone
+from datetime import timedelta
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -126,40 +130,132 @@ class AddQueueGameTeamView(generics.GenericAPIView):
 
         return Response({"detail":" Team added"}, status=status.HTTP_200_OK)
 
+class GameStateTimeView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        game_id = request.data.get("game_id")
+        try:
+            game = Game.objects.get(id=game_id)
+        except Game.DoesNotExist:
+            return Response({"detail":"Game does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        if game.stateEnd <= timezone.now():
+            game.stateStart= timezone.now()
+            if game.gameTime == '30m':
+                game.stateEnd = timezone.now() + timedelta(minutes=30)
+            elif game.gameTime == '24h':
+                game.stateEnd = timezone.now() + timedelta(hours=24)
+        else:
+            return Response({"detail":"No need to switch to new state, time is valid"},status=status.HTTP_200_OK)
+
+        game.state = 2
+        game.save()
+        return Response({"detail":"Successfully changed to state2 and changned time"}, status=status.HTTP_200_OK)
+
+
+
 class CreateQueueGameView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = QueueSerializer
+
     def post(self, request):
-        gameQueue = QueueGame.objects.get(user=request.user, state=2)
+        # Get my profile
+        profile = Profile.objects.get(user=request.user)
 
-        if not gameQueue:
-            return Response({"detail":"No gameQueue created"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        enemyTeam = QueueGame.objects.filter(state=2).exclude(user=request.user).first()
-
-        if not enemyTeam:
-            return Response({"detail":"No enemy team"}, status=status.HTTP_400_BAD_REQUEST)
-
-        game = Game.objects.create(
-            state = 1
+        # If I have a active game it returns me the game_id
+        if profile.currentGame:
+            return Response(
+                {"detail": "game found", "game_id": profile.currentGame.id},
+                status=status.HTTP_200_OK
             )
 
-        game.teams.add(gameQueue.team, enemyTeam.team)
-        game.save()
+        # I set my queue which is in the database, if there is no queue it means its not activated, have to go back to step 1 of creating a gave
+        try:
+            my_queue = QueueGame.objects.get(user=request.user, state=2)
+        except QueueGame.DoesNotExist:
+            return Response(
+                {"detail": "No active ready queue found"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # Looking for enemy gamequeue with the same system and time request, and we grab afirst, if no we are waiting
+        enemy_queue = QueueGame.objects.filter(
+            state=2,
+            gameSystem=my_queue.gameSystem,
+            gameTime=my_queue.gameTime
+        ).exclude(user=request.user).first()
 
+        if not enemy_queue:
+            return Response(
+                {"detail": "waiting"},
+                status=status.HTTP_200_OK
+            )
+
+        # This is just a edge case so the enemy users dont have a game, because it will cause chaos for it to happen
+        enemy_owner_profile = Profile.objects.get(user=enemy_queue.user)
+        if enemy_owner_profile.currentGame:
+            return Response(
+                {"detail": "waiting"},
+                status=status.HTTP_200_OK
+            )
+        # We use with as else, where we are using transaction atomic to do everything systematically and in a case of fail it will delete itself
+        with transaction.atomic():
+            # We need to use select for update since we are locking the row
+            my_profile = Profile.objects.select_for_update().get(user=request.user)
+            enemy_owner_profile = Profile.objects.select_for_update().get(user=enemy_queue.user)
+            
+            # Added again the same edgecase for if there is a game 
+            if my_profile.currentGame:
+                return Response(
+                    {"detail": "game found", "game_id": my_profile.currentGame.id},
+                    status=status.HTTP_200_OK
+                )
+
+            if enemy_owner_profile.currentGame:
+                return Response(
+                    {"detail": "waiting"},
+                    status=status.HTTP_200_OK
+                )
+
+            #If there is no game for both, wecreate agame and populate it
+            game = Game(state=1)
+            game.gameSystem = my_queue.gameSystem
+            # Set the time for game
+            if my_queue.gameTime == '30m':
+                game.stateEnd = timedelta(minutes=30)+ timezone.now()
+                # Have to set the also timegamemode late to know
+                game.gameTime = '30m'
+                game.save()
+            if my_queue.gameTime == '24h':
+                game.stateEnd = timedelta(hours=24)+ timezone.now()
+                game.gameTime = '24h'
+                game.save()
+            
+            
+            game.teams.add(my_queue.team, enemy_queue.team)
+            # Whole case when the user does not have a profile created, had to add a get ot create, but this created a tuple, we solved it by just adding _
+            # Add it for each player in all the teams
+            for user in my_queue.team.members.all():
+                member_profile, _ = Profile.objects.get_or_create(user=user)
+                member_profile.currentGame = game
+                member_profile.save()
+
+            for user in enemy_queue.team.members.all():
+                member_profile, _ = Profile.objects.get_or_create(user=user)
+                member_profile.currentGame = game
+                member_profile.save()
+            # Delete the queue since we dont need it no more
+            my_queue.delete()
+            enemy_queue.delete()
+
+            return Response(
+                {"detail": "game found", "game_id": game.id},
+                status=status.HTTP_201_CREATED
+            )
         
-        return game
-
-class ListGameView(generics.GenericAPIView):
+class ListGameView(generics.RetrieveAPIView):
+    # Find this new way of listing on overflow
     permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        try: # Game has np user, i will have to filter from team. if member = request.user
-            return Game.objects.get(team.member=request.user, state=1)
-
-        except Game.DoesNotExist:
-            return Response({"detail":"Could not find game"}, status=status.HTTP_400_BAD_REQUEST)
-
+    serializer_class = GameSerializer
+    queryset = Game.objects.all()
+    lookup_url_kwarg = "game_id"
 
 class AddTeamFriendView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
